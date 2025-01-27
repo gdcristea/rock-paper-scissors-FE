@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {ModalService} from '../../services/modal-service/modal.service';
 
 @Component({
   selector: 'app-rules-button',
@@ -6,4 +7,10 @@ import { Component } from '@angular/core';
   templateUrl: './rules-button.component.html',
   styleUrl: './rules-button.component.scss'
 })
-export class RulesButtonComponent {}
+export class RulesButtonComponent {
+  modalService = inject(ModalService);
+
+  openRulesModal(): void {
+    this.modalService.toggleModal();
+  }
+}

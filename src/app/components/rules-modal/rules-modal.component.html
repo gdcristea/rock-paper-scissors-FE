@@ -1,8 +1,14 @@
-<div class="rules-modal-overlay">
-  <div class="rules-modal-container">
+<div
+  *ngIf="isModalVisible()"
+  (click)="closeRulesModal()"
+  class="rules-modal-overlay"
+  >
+  <div class="rules-modal-container" (click)="$event.stopPropagation()">
     <div class="rules-modal-container__title">
       <p class="rules-modal-container__title__content">RULES</p>
-      <div class="rules-modal-container__close-btn-web">
+      <div
+        (click)="closeRulesModal()"
+        class="rules-modal-container__close-btn-web">
         <img src="assets/icon-close.svg" alt="Close button mobile">
       </div>
     </div>
@@ -11,7 +17,9 @@
       <img src="assets/image-rules.svg" alt="Game rules">
     </div>
 
-    <div class="rules-modal-container__close-btn-mobile">
+    <div
+      (click)="closeRulesModal()"
+      class="rules-modal-container__close-btn-mobile">
       <img src="assets/icon-close.svg" alt="Close button web">
     </div>
   </div>
