@@ -1,0 +1,70 @@
+.score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border: 0.1875rem solid var(--borderColor);
+  border-radius: 0.3125rem;
+  @media only screen and (min-width: 767px) {
+    border-radius: 1rem;
+    padding: 1.125rem 1.5rem;
+  }
+
+  &__left-side {
+    padding: 0.75rem;
+    @media only screen and (min-width: 767px) {
+      padding: 0.375rem 0;
+    }
+
+    img {
+      max-width: 100%;
+      width: 5.1875rem;
+      max-height: 3rem;
+      @media only screen and (min-width: 767px) {
+        width: 9.9375rem;
+        max-height: 6rem;
+      }
+    }
+  }
+
+  &__right-side {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 2rem;
+    border-radius: 0.25rem;
+    @media only screen and (min-width: 767px) {
+      padding: 1rem 3rem;
+      border-radius: 0.5rem;
+    }
+
+    &__title {
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--scoreText);
+      letter-spacing: 0.04rem;
+      margin: 0;
+
+      @media only screen and (min-width: 767px) {
+        font-size: 1rem;
+        letter-spacing: 0.16rem;
+        margin-bottom: 0.125rem;
+      }
+    }
+
+    &__value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 2.5rem;
+      color: var(--headerOutline);
+      margin: 0;
+
+      @media only screen and (min-width: 767px) {
+        font-size: 4rem;
+        line-height: 4rem;
+      }
+    }
+  }
+}
