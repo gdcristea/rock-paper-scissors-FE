@@ -1,23 +1,16 @@
 @if (isFilled()) {
-<div
-  class="option"
-  [ngClass]="'option--' + type()"
-  [class.option--selected]="isSelected()"
-  [class.option--hoverable]="!isSelected()"
-  [class.option--pulsing]="isPulsing()"
-  (click)="emitSelectedOption()"
->
-  @if (isPulsing()) {
-    <div class="option__pulse"></div>
-    <div class="option__pulse"></div>
-    <div class="option__pulse"></div>
-  }
-
-  <div class="option__content">
-    <img [src]="'assets/icon-' + type() + '.svg'" [alt]="type() + ' option'" />
+  <div
+    class="option"
+    [ngClass]="'option--' + type()"
+    [class.option--selected]="isSelected()"
+    [class.option--hoverable]="!isSelected()"
+    [class.option--pulsing]="isPulsing()"
+    (click)="emitSelectedOption()"
+  >
+    <div class="option__content">
+      <img [src]="'assets/icon-' + type() + '.svg'" [alt]="type() + ' option'" />
+    </div>
   </div>
-</div>
 } @else {
-<div class="option option--empty"></div>
+  <div class="option option--empty"></div>
 }
-

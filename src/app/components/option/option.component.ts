@@ -1,4 +1,13 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Renderer2,
+  input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 type TOption = 'scissors' | 'rock' | 'paper';
@@ -10,7 +19,7 @@ type TOption = 'scissors' | 'rock' | 'paper';
   templateUrl: './option.component.html',
   styleUrl: './option.component.scss',
 })
-export class OptionComponent {
+export class OptionComponent implements AfterViewInit {
   /**
    * Stores options
    */
@@ -18,13 +27,11 @@ export class OptionComponent {
 
   /**
    * If it's true then the component will be bigger on desktop
-   * It's a different state for this component
    */
   isSelected = input<boolean>(false);
 
   /**
    * If it's true then there is an empty circle
-   * It's a different state for this component
    */
   isFilled = input<boolean>(false);
 
@@ -32,6 +39,37 @@ export class OptionComponent {
    * It adds an animation around the component
    */
   isPulsing = input<boolean>(false);
+
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  //Logic to trigger the animation automatically when the component is initialised. No need to hover or click on it.
+  ngAfterViewInit(): void {
+    if (this.isPulsing() && this.isSelected()) {
+      //Find the container where the pulsing elements should be placed
+      const optionElement =
+        this.el.nativeElement.querySelector('.option--pulsing');
+
+      if (optionElement) {
+        // Wait 50ms and then add the pulsing elements
+        setTimeout(() => {
+          this.createPulse(optionElement);
+        }, 50);
+      }
+    }
+  }
+
+  private createPulse(container: HTMLElement): void {
+    for (let i = 0; i < 3; i++) {
+      const pulse = this.renderer.createElement('div');
+      this.renderer.addClass(pulse, 'option__pulse');
+      this.renderer.appendChild(container, pulse);
+    }
+    this.cdr.detectChanges();
+  }
 
   /**
    * Event emitter to emit the selected option to the parent component
