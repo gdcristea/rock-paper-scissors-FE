@@ -1,7 +1,7 @@
-import {Injectable, signal} from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModalService {
   /**
@@ -13,6 +13,6 @@ export class ModalService {
    * Handles modal visibility changes
    */
   toggleModal(): void {
-    this.modalVisible.update(current => !current);
+    this.modalVisible.update((current) => !current);
   }
 }

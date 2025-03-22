@@ -8,3 +8,7 @@ body {
   height: 100%;
   background: radial-gradient(ellipse, var(--backgroundGradientEnd), var(--backgroundGradientEnd));
 }
+
+img {
+  display: block;
+}
