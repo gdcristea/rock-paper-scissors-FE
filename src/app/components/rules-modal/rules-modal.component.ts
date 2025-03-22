@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, WritableSignal } from '@angular/core';
 import { ModalService } from '../../services/modal-service/modal.service';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +15,7 @@ export class RulesModalComponent {
   /**
    * Stores if the modal is visible
    */
-  isModalVisible = this.modalService.modalVisible;
+  isModalVisible: WritableSignal<boolean> = this.modalService.modalVisible;
 
   closeRulesModal(): void {
     this.modalService.toggleModal();
