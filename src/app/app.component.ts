@@ -94,12 +94,14 @@ export class AppComponent {
         if (WINNER === 'user') {
           const userOptionObj = this.userPickedOption();
           this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
+          this.score.update((score) => score + 1); //update score
         } else if (WINNER === 'computer') {
           const compOptionUpdated = this.computerPickedOption();
           this.computerPickedOption.set({
             ...compOptionUpdated,
             isPulsing: true,
           });
+          this.score.update((score) => score - 1); //update score
         }
       }, 500); // Activate animation 0.5s later
     }, 1500);
