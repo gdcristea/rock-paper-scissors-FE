@@ -1,10 +1,14 @@
 <div class="game-result">
   <div class="game-result__status">
-    {{result()}}
+    {{
+      result() === "user-wins"
+        ? "YOU WIN"
+        : result() === "computer-wins"
+        ? "YOU LOSE"
+        : "It's a tie"
+    }}
   </div>
-  <button
-    class="game-result__play-again"
-    (click)="playAgain()">
+  <button class="game-result__play-again" (click)="playAgain()">
     PLAY AGAIN
   </button>
 </div>

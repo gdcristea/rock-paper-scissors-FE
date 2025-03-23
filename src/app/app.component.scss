@@ -66,5 +66,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    &__result-container {
+      margin-bottom: 3.25rem;
+    }
   }
 }

@@ -6,6 +6,7 @@ import { ScoreComponent } from './components/score/score.component';
 import { GameResultComponent } from './components/game-result/game-result.component';
 import { OptionComponent } from './components/option/option.component';
 import { TOption } from './models/option.type';
+import { TGameResult } from './models/game-result.type';
 
 /**
  * Interface representing an option for the game.
@@ -68,6 +69,16 @@ export class AppComponent {
   computerPickedOption: WritableSignal<IOption> = signal(null);
 
   /**
+   * Stores if the game ended
+   */
+  isEndOfGame: WritableSignal<boolean> = signal(false);
+
+  /**
+   * Stores the result of the game
+   */
+  winner: WritableSignal<TGameResult> = signal(null);
+
+  /**
    * Determines the winner of the game round based on the user's choice.
    * It first sets the selected options for both user and computer,
    * then uses two delayed steps:
@@ -91,10 +102,13 @@ export class AppComponent {
           this.computerPickedOption().type
         );
 
+        this.isEndOfGame.set(true); //the game is over
+
         if (WINNER === 'user') {
           const userOptionObj = this.userPickedOption();
           this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
           this.score.update((score) => score + 1); //update score
+          this.winner.set('user-wins'); //update the winner
         } else if (WINNER === 'computer') {
           const compOptionUpdated = this.computerPickedOption();
           this.computerPickedOption.set({
@@ -102,6 +116,9 @@ export class AppComponent {
             isPulsing: true,
           });
           this.score.update((score) => score - 1); //update score
+          this.winner.set('computer-wins'); //update the winner
+        } else {
+          this.winner.set('tie'); //update the winner
         }
       }, 500); // Activate animation 0.5s later
     }, 1500);
@@ -166,5 +183,16 @@ export class AppComponent {
     } else {
       return 'computer';
     }
+  }
+
+  /**
+   * Play the game again.
+   * Reset some properties.
+   */
+  playAgain(): void {
+    this.userPickedOption.set(null);
+    this.computerPickedOption.set(null);
+    this.winner.set(null);
+    this.isEndOfGame.set(false);
   }
 }

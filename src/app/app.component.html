@@ -25,7 +25,9 @@
           [isPulsing]="userPickedOption().isPulsing"
           [type]="userPickedOption().type"
         />
-        <span class="main__body__selected-options__description">YOU PICKED</span>
+        <span class="main__body__selected-options__description"
+          >YOU PICKED</span
+        >
       </div>
       <div class="flex-column-center">
         <app-option
@@ -34,12 +36,21 @@
           [isPulsing]="computerPickedOption().isPulsing"
           [type]="computerPickedOption().type"
         />
-        <span class="main__body__selected-options__description">THE HOUSE PICKED</span>
+        <span class="main__body__selected-options__description"
+          >THE HOUSE PICKED</span
+        >
       </div>
     </div>
     }
   </section>
   <section class="main__footer">
+    @if (isEndOfGame()) {
+    <div class="main__footer__result-container">
+      <app-game-result
+        [result]="winner()"
+        (play)="playAgain()"/>
+    </div>
+    }
     <app-rules-button />
   </section>
 </div>
