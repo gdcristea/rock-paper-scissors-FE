@@ -58,27 +58,28 @@
       border-radius: 50%;
       opacity: 0.3;
       animation: pulseAnimation 1.5s infinite ease-out;
+      will-change: transform, opacity;
     }
 
     .option__pulse:nth-child(1) {
       width: 110%;
       height: 110%;
       background-color: rgba(255, 255, 255, 0.2);
-      animation-delay: 0s;
+      animation-delay: -1s;
     }
 
     .option__pulse:nth-child(2) {
       width: 120%;
       height: 120%;
       background-color: rgba(255, 255, 255, 0.4);
-      animation-delay: 0.5s;
+      animation-delay: -0.5s;
     }
 
     .option__pulse:nth-child(3) {
       width: 130%;
       height: 130%;
       background-color: rgba(255, 255, 255, 0.5);
-      animation-delay: 1s;
+      animation-delay: 0s;
     }
   }
 
