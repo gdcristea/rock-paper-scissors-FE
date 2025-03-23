@@ -18,18 +18,24 @@
     </div>
     } @else {
     <div class="main__body__selected-options">
-      <app-option
-        [isSelected]="true"
-        [isFilled]="userPickedOption().isFilled"
-        [isPulsing]="userPickedOption().isPulsing"
-        [type]="userPickedOption().type"
-      />
-      <app-option
-        [isSelected]="true"
-        [isFilled]="computerPickedOption().isFilled"
-        [isPulsing]="computerPickedOption().isPulsing"
-        [type]="computerPickedOption().type"
-      />
+      <div class="flex-column-center">
+        <app-option
+          [isSelected]="true"
+          [isFilled]="userPickedOption().isFilled"
+          [isPulsing]="userPickedOption().isPulsing"
+          [type]="userPickedOption().type"
+        />
+        <span class="main__body__selected-options__description">YOU PICKED</span>
+      </div>
+      <div class="flex-column-center">
+        <app-option
+          [isSelected]="true"
+          [isFilled]="computerPickedOption().isFilled"
+          [isPulsing]="computerPickedOption().isPulsing"
+          [type]="computerPickedOption().type"
+        />
+        <span class="main__body__selected-options__description">THE HOUSE PICKED</span>
+      </div>
     </div>
     }
   </section>
