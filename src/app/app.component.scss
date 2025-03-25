@@ -4,6 +4,7 @@
   justify-content: center;
   height: 100%;
   padding: 2rem 1.75rem 3.5rem;
+  overflow: hidden; //prevent scroll cause by the pulsing animation
   @media only screen and (min-width: 767px) {
     padding: 3rem 2rem 2rem;
   }
