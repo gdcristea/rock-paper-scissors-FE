@@ -5,6 +5,7 @@
   bottom: 0;
   right: 0;
   left: 0;
+  z-index: 3;
   @media only screen and (min-width: 767px) {
     position: fixed;
     display: flex;
@@ -22,6 +23,8 @@
   align-items: center;
   justify-content: center;
   padding: 0 2.1875rem;
+  position: relative;
+  z-index: 4;
 
   @media only screen and (min-width: 767px) {
     height: auto;
