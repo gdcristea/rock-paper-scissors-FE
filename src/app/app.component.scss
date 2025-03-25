@@ -4,6 +4,9 @@
   justify-content: center;
   height: 100%;
   padding: 2rem 1.75rem 3.5rem;
+  @media only screen and (min-width: 767px) {
+    padding: 3rem 2rem 2rem;
+  }
 
   &__header {
     padding-left: 0.25rem;
@@ -19,8 +22,15 @@
     &__triangle {
       position: relative;
       height: 9rem;
+      @media only screen and (min-width: 767px) {
+        height: 13.75rem;
+      }
       img {
         width: 10.5rem;
+        @media only screen and (min-width: 767px) {
+          width: 15.875rem;
+          height: 17.9375rem;
+        }
       }
 
       app-option {
@@ -51,14 +61,42 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      max-width: 43.75rem;
 
-      &__description {
-        font-weight: 700;
-        font-size: 0.9375rem;
-        line-height: 2rem;
-        letter-spacing: 0.12rem;
-        color: var(--white);
-        margin-top: 1rem;
+      &--width {
+        max-width: 60rem;
+      }
+
+      &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        @media only screen and (min-width: 767px) {
+          flex-direction: column-reverse;
+          justify-content: space-between;
+          height: 24.6875rem;
+        }
+
+        &__result-container {
+          @media only screen and (max-width: 767px) {
+            display: none;
+          }
+        }
+
+        &__description {
+          font-weight: 700;
+          font-size: 0.9375rem;
+          line-height: 2rem;
+          letter-spacing: 0.12rem;
+          color: var(--white);
+          margin-top: 1rem;
+          @media only screen and (min-width: 767px) {
+            font-size: 1.5rem;
+            letter-spacing: 0.1875rem;
+            margin-top: 0;
+          }
+        }
       }
     }
   }
@@ -68,9 +106,15 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    @media only screen and (min-width: 767px) {
+      align-items: self-end;
+    }
 
     &__result-container {
       margin-bottom: 3.25rem;
+      @media only screen and (min-width: 767px) {
+        display: none;
+      }
     }
   }
 }
