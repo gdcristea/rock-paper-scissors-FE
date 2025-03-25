@@ -97,19 +97,19 @@ export class AppComponent {
       this.computerPickedOption.set({ ...compOption, isFilled: true });
 
       setTimeout((): void => {
-        const WINNER = this.whoWon(
+        const winner = this.whoWon(
           userOption,
           this.computerPickedOption().type
         );
 
         this.isEndOfGame.set(true); //the game is over
 
-        if (WINNER === 'user') {
+        if (winner === 'user') {
           const userOptionObj = this.userPickedOption();
           this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
           this.score.update((score) => score + 1); //update score
           this.winner.set('user-wins'); //update the winner
-        } else if (WINNER === 'computer') {
+        } else if (winner === 'computer') {
           const compOptionUpdated = this.computerPickedOption();
           this.computerPickedOption.set({
             ...compOptionUpdated,
@@ -150,10 +150,10 @@ export class AppComponent {
    * @returns A randomly chosen TOption.
    */
   private randomComputerOption(): TOption {
-    const RANDOM_NUMBER: number = Math.floor(
+    const randomNumber: number = Math.floor(
       Math.random() * this.options().length
     );
-    return this.options()[RANDOM_NUMBER];
+    return this.options()[randomNumber];
   }
 
   /**
