@@ -1,4 +1,10 @@
-import { Component, Signal, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RulesButtonComponent } from './components/rules-button/rules-button.component';
 import { RulesModalComponent } from './components/rules-modal/rules-modal.component';
@@ -45,7 +51,7 @@ type TWinner = 'user' | 'computer' | 'tie';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   /**
    * Holds the current score of the user.
    */
@@ -79,6 +85,16 @@ export class AppComponent {
   winner: WritableSignal<TGameResult> = signal(null);
 
   /**
+   * If the user played in the past, then start from the previous score
+   */
+  ngOnInit(): void {
+    const pastScore: string = localStorage.getItem('score');
+    if (pastScore) {
+      this.score.set(+pastScore);
+    }
+  }
+
+  /**
    * Determines the winner of the game round based on the user's choice.
    * It first sets the selected options for both user and computer,
    * then uses two delayed steps:
@@ -108,6 +124,7 @@ export class AppComponent {
           const userOptionObj = this.userPickedOption();
           this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
           this.score.update((score) => score + 1); //update score
+          localStorage.setItem('score', this.score().toString()); //update score in local storage
           this.winner.set('user-wins'); //update the winner
         } else if (winner === 'computer') {
           const compOptionUpdated = this.computerPickedOption();
@@ -116,6 +133,7 @@ export class AppComponent {
             isPulsing: true,
           });
           this.score.update((score) => score - 1); //update score
+          localStorage.setItem('score', this.score().toString()); //update score in local storage
           this.winner.set('computer-wins'); //update the winner
         } else {
           this.winner.set('tie'); //update the winner
