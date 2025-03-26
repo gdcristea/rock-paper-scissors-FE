@@ -6,7 +6,11 @@
 html,
 body {
   height: 100%;
-  background: radial-gradient(ellipse, var(--backgroundGradientEnd), var(--backgroundGradientEnd));
+  background: radial-gradient(
+      ellipse at center,
+      var(--backgroundGradientStart) 0%,
+      var(--backgroundGradientEnd) 100%
+  );
 }
 
 img {
