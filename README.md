@@ -1,27 +1,58 @@
-# FunGame
+# Frontend Mentor - Rock, Paper, Scissors solution
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+This is a solution to the [Rock, Paper, Scissors challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/rock-paper-scissors-game-pTgwgvgH). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Development server
+## Table of contents
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [Built with](#built-with)
+- [Author](#author)
 
-## Code scaffolding
+## Overview
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### The challenge
 
-## Build
+Users should be able to:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- View the optimal layout for the game depending on their device's screen size
+- Play Rock, Paper, Scissors against the computer
+- Maintain the state of the score after refreshing the browser 
 
-## Running unit tests
+### Screenshot
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Mobile start game](./screenshots/mobile_screenshot_1.png)
+![Mobile see the winner](./screenshots/mobile_screenshot_2.png)
+![Web start game](./screenshots/web_screenshot_1.png)
+![Web see the winner](./screenshots/web_screenshot_2.png)
 
-## Running end-to-end tests
+### Links
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Solution URL: [https://github.com/gdcristea/fun-game](https://github.com/gdcristea/fun-game)
+- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
-## Further help
+### Built with
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Core Technologies**
+- Semantic HTML5
+- SCSS with custom properties
+- CSS Flexbox
+- Mobile-first design
+
+**Framework & Architecture**
+- Angular (with Standalone Components)
+- Angular Signals
+- LocalStorage for score persistence
+
+**Component Design**
+- Modular structure using custom components (`<app-option>`, `<app-score>`, etc.)
+- Animation with CSS (pulsing effect)
+- Dynamic game logic using timeouts and state signals
+
+## Author
+
+- Website - work in progress.
+- Frontend Mentor - [Daniel Cristea](https://www.frontendmentor.io/profile/gdcristea)
+- LinkedIn - [Daniel Cristea](https://www.linkedin.com/in/daniel-cristea-629069191/)
