@@ -31,7 +31,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [https://github.com/gdcristea/fun-game](https://github.com/gdcristea/fun-game)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [https://gdcristea.github.io/fun-game/](https://gdcristea.github.io/fun-game/)
 
 ### Built with
 
