@@ -25,6 +25,8 @@
 
   //Modifier for hover (applied only when isSelected = false)
   &--hoverable {
+    cursor: pointer;
+    pointer-events: none;
     &::after {
       content: "";
       position: absolute;
@@ -34,7 +36,7 @@
       border: 1rem solid transparent;
       opacity: 1;
       transition: opacity 0.2s ease-in-out;
-      cursor: pointer;
+      pointer-events: auto;
     }
 
     &:hover::after {
