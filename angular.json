@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fun-game": {
+    "rock-paper-scissors-FE": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fun-game",
+            "outputPath": "dist/rock-paper-scissors-FE",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fun-game:build:production"
+              "buildTarget": "rock-paper-scissors-FE:build:production"
             },
             "development": {
-              "buildTarget": "fun-game:build:development"
+              "buildTarget": "rock-paper-scissors-FE:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,6 +91,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
