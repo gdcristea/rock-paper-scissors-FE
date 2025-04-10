@@ -1,5 +1,5 @@
 import {
-  Component,
+  Component, inject,
   OnInit,
   Signal,
   signal,
@@ -13,6 +13,8 @@ import { GameResultComponent } from './components/game-result/game-result.compon
 import { OptionComponent } from './components/option/option.component';
 import { TOption } from './models/option.type';
 import { TGameResult } from './models/game-result.type';
+import {ApiService} from './services/api-service/api.service';
+import {IWinner} from './services/api-service/api.interfaces';
 
 /**
  * Interface representing an option for the game.
@@ -31,12 +33,6 @@ interface IOption {
    */
   type: TOption;
 }
-
-/**
- * Type representing the winner of the game.
- */
-type TWinner = 'user' | 'computer' | 'tie';
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -46,7 +42,7 @@ type TWinner = 'user' | 'computer' | 'tie';
     RulesModalComponent,
     ScoreComponent,
     GameResultComponent,
-    OptionComponent,
+    OptionComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -85,6 +81,11 @@ export class AppComponent implements OnInit {
   winner: WritableSignal<TGameResult> = signal(null);
 
   /**
+   * Api service used to communicate with the backend
+   */
+  apiService = inject(ApiService);
+
+  /**
    * If the user played in the past, then start from the previous score
    */
   ngOnInit(): void {
@@ -105,102 +106,61 @@ export class AppComponent implements OnInit {
    * @param userOption - The option selected by the user.
    */
   determineTheWinner(userOption: TOption): void {
-    this.getSelectedOptions(userOption);
+    this.apiService.determineWinner(userOption).subscribe((response: IWinner): void => {
+      this.getSelectedOptions(userOption, response.computerOption);
 
-    // Delay of 1.5s until the computer option is revealed
-    setTimeout((): void => {
-      const compOption = this.computerPickedOption();
-      this.computerPickedOption.set({ ...compOption, isFilled: true });
-
+      // Delay of 1.5s until the computer option is revealed
       setTimeout((): void => {
-        const winner = this.whoWon(
-          userOption,
-          this.computerPickedOption().type
-        );
+        const compOption = this.computerPickedOption();
+        this.computerPickedOption.set({ ...compOption, isFilled: true });
 
-        this.isEndOfGame.set(true); //the game is over
+        setTimeout((): void => {
+          const winner = response.result;
 
-        if (winner === 'user') {
-          const userOptionObj = this.userPickedOption();
-          this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
-          this.score.update((score) => score + 1); //update score
-          localStorage.setItem('score', this.score().toString()); //update score in local storage
-          this.winner.set('user-wins'); //update the winner
-        } else if (winner === 'computer') {
-          const compOptionUpdated = this.computerPickedOption();
-          this.computerPickedOption.set({
-            ...compOptionUpdated,
-            isPulsing: true,
-          });
-          this.score.update((score) => score - 1); //update score
-          localStorage.setItem('score', this.score().toString()); //update score in local storage
-          this.winner.set('computer-wins'); //update the winner
-        } else {
-          this.winner.set('tie'); //update the winner
-        }
-      }, 500); // Activate animation 0.5s later
-    }, 1500);
+          this.isEndOfGame.set(true); //the game is over
+
+          if (winner === 'user') {
+            const userOptionObj = this.userPickedOption();
+            this.userPickedOption.set({ ...userOptionObj, isPulsing: true });
+            this.score.update((score) => score + 1); //update score
+            localStorage.setItem('score', this.score().toString()); //update score in local storage
+            this.winner.set('user-wins'); //update the winner
+          } else if (winner === 'computer') {
+            const compOptionUpdated = this.computerPickedOption();
+            this.computerPickedOption.set({
+              ...compOptionUpdated,
+              isPulsing: true,
+            });
+            this.score.update((score) => score - 1); //update score
+            localStorage.setItem('score', this.score().toString()); //update score in local storage
+            this.winner.set('computer-wins'); //update the winner
+          } else {
+            this.winner.set('tie'); //update the winner
+          }
+        }, 500); // Activate animation 0.5s later
+      }, 1500);
+    })
   }
 
   /**
    * Initializes the selected options for the current game round.
    * Sets the user's option as filled and resets its pulsing state,
-   * and sets the computer's option as unfilled with a randomly selected type.
+   * and sets the computer's option as unfilled with a selected type generated randomly in backend.
    *
-   * @param option - The option selected by the user.
+   * @param userOption - The option selected by the user.
+   * @param computerOption - The option selected by the computer.
    */
-  private getSelectedOptions(option: TOption): void {
+  private getSelectedOptions(userOption: TOption, computerOption: TOption): void {
     this.userPickedOption.set({
       isFilled: true,
       isPulsing: false,
-      type: option,
+      type: userOption,
     });
     this.computerPickedOption.set({
       isFilled: false,
       isPulsing: false,
-      type: this.randomComputerOption(),
+      type: computerOption,
     });
-  }
-
-  /**
-   * Returns a random option for the computer based on the available options.
-   *
-   * @returns A randomly chosen TOption.
-   */
-  private randomComputerOption(): TOption {
-    const randomNumber: number = Math.floor(
-      Math.random() * this.options().length
-    );
-    return this.options()[randomNumber];
-  }
-
-  /**
-   * Determines the winner of the game round based on the user's and computer's options.
-   * If both options are the same, the result is a tie.
-   * Otherwise, applies the rules:
-   * - Rock beats Scissors
-   * - Scissors beats Paper
-   * - Paper beats Rock
-   *
-   * @param userOption - The user's selected option.
-   * @param computerOption - The computer's selected option.
-   * @returns 'user' if the user wins, 'computer' if the computer wins, or 'tie' if it's a draw.
-   */
-  private whoWon(userOption: TOption, computerOption: TOption): TWinner {
-    // If both options are identical, it's a tie.
-    if (userOption === computerOption) {
-      return 'tie';
-    }
-
-    if (
-      (userOption === 'rock' && computerOption === 'scissors') ||
-      (userOption === 'scissors' && computerOption === 'paper') ||
-      (userOption === 'paper' && computerOption === 'rock')
-    ) {
-      return 'user';
-    } else {
-      return 'computer';
-    }
   }
 
   /**
