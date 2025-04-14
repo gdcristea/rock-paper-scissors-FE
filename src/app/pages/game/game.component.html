@@ -1,0 +1,65 @@
+<div class="main">
+  <section class="main__header">
+    <app-score [score]="score()" />
+  </section>
+  <section class="main__body">
+    @if(!userPickedOption()) {
+      <div class="main__body__triangle">
+        <img src="assets/images/bg-triangle.svg" alt="triangle icon" />
+        @for (option of options(); track option) {
+          <app-option
+            [isSelected]="false"
+            [isFilled]="true"
+            [isPulsing]="false"
+            [type]="option"
+            (selectedOption)="determineTheWinner($event)"
+          />
+        }
+      </div>
+    } @else {
+      <div
+        class="main__body__selected-options"
+        [class.main__body__selected-options--width]="isEndOfGame()"
+      >
+        <div class="main__body__selected-options__container">
+          <app-option
+            [isSelected]="true"
+            [isFilled]="userPickedOption().isFilled"
+            [isPulsing]="userPickedOption().isPulsing"
+            [type]="userPickedOption().type"
+          />
+          <span class="main__body__selected-options__container__description"
+          >YOU PICKED</span
+          >
+        </div>
+
+        @if (isEndOfGame()) {
+          <div class="main__body__selected-options__container__result-container">
+            <app-game-result [result]="winner()" (play)="playAgain()" />
+          </div>
+        }
+
+        <div class="main__body__selected-options__container">
+          <app-option
+            [isSelected]="true"
+            [isFilled]="computerPickedOption().isFilled"
+            [isPulsing]="computerPickedOption().isPulsing"
+            [type]="computerPickedOption().type"
+          />
+          <span class="main__body__selected-options__container__description"
+          >THE HOUSE PICKED</span
+          >
+        </div>
+      </div>
+    }
+  </section>
+  <section class="main__footer">
+    @if (isEndOfGame()) {
+      <div class="main__footer__result-container">
+        <app-game-result [result]="winner()" (play)="playAgain()" />
+      </div>
+    }
+    <app-rules-button />
+  </section>
+</div>
+<app-rules-modal />

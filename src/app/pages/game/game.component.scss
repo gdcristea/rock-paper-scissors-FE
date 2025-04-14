@@ -1,0 +1,121 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem 1.75rem 3.5rem;
+  overflow: hidden; //prevent scroll cause by the pulsing animation
+  @media only screen and (min-width: 767px) {
+    padding: 3rem 2rem 2rem;
+  }
+
+  &__header {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  &__body {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__triangle {
+      position: relative;
+      height: 9rem;
+      @media only screen and (min-width: 767px) {
+        height: 13.75rem;
+      }
+      img {
+        width: 10.5rem;
+        @media only screen and (min-width: 767px) {
+          width: 15.875rem;
+          height: 17.9375rem;
+        }
+      }
+
+      app-option {
+        position: absolute;
+      }
+
+      app-option:nth-of-type(1) {
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      app-option:nth-of-type(2) {
+        top: 0;
+        right: 0;
+        transform: translate(50%, -50%);
+      }
+
+      app-option:nth-of-type(3) {
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 50%);
+      }
+    }
+
+    &__selected-options {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 43.75rem;
+
+      &--width {
+        max-width: 60rem;
+      }
+
+      &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        @media only screen and (min-width: 895px) {
+          flex-direction: column-reverse;
+          justify-content: space-between;
+          height: 24.6875rem;
+        }
+
+        &__result-container {
+          @media only screen and (max-width: 895px) {
+            display: none;
+          }
+        }
+
+        &__description {
+          font-weight: 700;
+          font-size: 0.9375rem;
+          line-height: 2rem;
+          letter-spacing: 0.12rem;
+          color: var(--white);
+          margin-top: 1rem;
+          @media only screen and (min-width: 895px) {
+            font-size: 1.5rem;
+            letter-spacing: 0.1875rem;
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    @media only screen and (min-width: 895px) {
+      align-items: self-end;
+    }
+
+    &__result-container {
+      margin-bottom: 3.25rem;
+      @media only screen and (min-width: 895px) {
+        display: none;
+      }
+    }
+  }
+}
