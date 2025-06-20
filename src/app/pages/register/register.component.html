@@ -1,46 +1,45 @@
-<div class="register-container">
-  <form
-    [formGroup]="registerForm"
-    (ngSubmit)="onSubmit()"
-    class="register-form"
-  >
-    <h2 class="register-title">Sign up</h2>
-
-    <label for="username">Username</label>
-    <input id="username" type="text" formControlName="username" />
-    @if(registerForm.controls['username'].invalid && !registerForm.controls['username'].untouched) {
-    <div
-      class="error">
-      Username is required
-    </div>
+<div class="register-page">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label>
+    <input
+      id="username"
+      formControlName="username"
+      type="text"
+      autocomplete="off"
+      maxlength="16"
+    />
+    @if(registerForm.get('username')?.touched) {
+      <div class="input-error">
+        {{ getUsernameError() }}
+      </div>
     }
 
-    <label for="email">Email</label>
-    <input id="email" type="email" formControlName="email" />
-    @if(registerForm.controls['email'].invalid && !registerForm.controls['email'].untouched) {
-    <div class="error">A valid email is required</div>
+    <label for="password">Password:</label>
+    <input
+      id="password"
+      formControlName="password"
+      type="password"
+      autocomplete="off"
+    />
+    @if(registerForm.get('password')?.touched &&
+    registerForm.get('password')?.invalid) {
+      <div class="input-error">Password is required and must be at least 6 characters.</div>
     }
 
-    <label for="password">Password</label>
-    <input id="password" type="password" formControlName="password" />
-    @if(registerForm.controls['password'].invalid && !registerForm.controls['password'].untouched) {
-    <div class="error">Password is required (min 6 chars).</div>
-    }
-
-    <label for="confirmPassword">Confirm Password</label>
+    <label for="confirmPassword">Confirm password:</label>
     <input
       id="confirmPassword"
-      type="password"
       formControlName="confirmPassword"
+      type="password"
+      autocomplete="off"
     />
-    @if(registerForm.controls['confirmPassword'].invalid && !registerForm.controls['confirmPassword'].untouched) {
-    <div class="error">Passwords must match</div>
+    @if(registerForm.get('confirmPassword')?.touched &&
+    registerForm.errors?.['passwordsMismatch']) {
+      <div class="input-error">Password don't match.</div>
     }
 
-    <button class="register-button" type="submit">Sign up</button>
-
-    <p class="login-link">
-      Already have an account? <a routerLink="/login">Login</a>
-    </p>
+    <button type="submit" [disabled]="registerForm.invalid">Sign up</button>
   </form>
 </div>
+
+

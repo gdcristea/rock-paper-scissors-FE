@@ -1,86 +1,97 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import {RouterLink} from '@angular/router';
-import {CommonModule} from '@angular/common';
-import {ApiService} from '../../services/api-service/api.service';
 
-/**
- * Standalone Angular component that handles user registration using reactive forms.
- * Includes validation for required fields, email format, minimum password length, and password confirmation.
- */
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
   /**
-   * Reactive form group holding the registration form controls.
+   * Stores signup information.
    */
   registerForm: FormGroup;
 
   /**
-   * Injected FormBuilder instance used to easily construct the form group.
-   * @private
+   * Stores if the username already exists in the database.
    */
-  private fb = inject(FormBuilder);
+  isUsernameTaken = false;
 
-  private apiService = inject(ApiService);
-  /**
-   * Lifecycle hook that initializes the form with validation rules.
-   */
+  constructor(private readonly formBuilder: FormBuilder) {}
+
   ngOnInit(): void {
-    this.registerForm = this.fb.group(
+    this.registerForm = this.formBuilder.group(
       {
-        username: ['', [Validators.required]],
-        email: ['', [Validators.required, Validators.email]],
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.pattern(/^\w+$/), //a-z, A-Z, 0-9, _
+          ],
+        ],
         password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', [Validators.required]],
+        confirmPassword: ['', Validators.required],
       },
-      {
-        // Custom validator to ensure password and confirmPassword match
-        validator: this.matchPasswords('password', 'confirmPassword'),
-      }
+      { validators: this.passwordMatchValidator() }
     );
   }
 
   /**
-   * Custom validator function to compare password and confirmPassword fields.
-   * @param password - the name of the password control
-   * @param confirmPassword - the name of the confirmPassword control
-   * @returns a validator function to be used on the form group
+   * Checks if the two passwords are the same.
    */
-  private matchPasswords(password: string, confirmPassword: string) {
-    return (formGroup: FormGroup) => {
-      const pass = formGroup.controls[password];
-      const confirm = formGroup.controls[confirmPassword];
-
-      if (pass.value !== confirm.value) {
-        confirm.setErrors({ mustMatch: true });
-      } else {
-        confirm.setErrors(null);
-      }
+  private passwordMatchValidator(): ValidatorFn {
+    return (form: AbstractControl): ValidationErrors | null => {
+      const password = form.get('password').value;
+      const confirmPassword = form.get('confirmPassword').value;
+      return password === confirmPassword ? null : { passwordsMismatch: true };
     };
   }
 
   /**
-   * Handles form submission.
+   * Returns a specific error message if the username input is invalid.
    */
-  onSubmit(): void {
+  getUsernameError(): string | null {
+    const usernameControl = this.registerForm.get('username');
 
-    if (this.registerForm.invalid) {
-      return;
+    if (usernameControl.hasError('required')) {
+      return 'Username is required';
+    } else if (usernameControl.hasError('pattern')) {
+      return 'Username can only contain letters, numbers, and underscores (_), without spaces or special characters.';
+    } else if (usernameControl.hasError('minlength')) {
+      return 'Username length should be at least 4';
+    } else if (this.isUsernameTaken) {
+      return 'Username already exists';
     }
 
-    const {username, password} = this.registerForm.controls;
+    return null;
+  }
 
-    this.apiService.signup(username.value, password.value).subscribe();
+  /**
+   * Register user
+   */
+  onSubmit(): void {
+    //here I will add the logic to connect it with the backend
   }
 }
+
+/**
+ * todo:
+ * - placeholders for inputs
+ * - error handling: I will show the user a general technical error page if they
+ * send the data to the BE and the BE is down
+ * - show inline error when the user already exists in the database. implement logic
+ * in error handling and also here where I will use isUsernameTaken to store that information
+ * - 100% percent unit tests
+ * - better design
+ */
