@@ -78,20 +78,24 @@ export class RegisterComponent implements OnInit {
   }
 
   /**
+   * Returns a specific error message if the password is invalid.
+   */
+  getPasswordError(): string | null {
+    const passwordControl = this.registerForm.get('password');
+
+    if (passwordControl.hasError('required')) {
+      return 'Password is required';
+    } else if (passwordControl.hasError('minlength')) {
+      return 'Password length should be at least 6';
+    }
+
+    return null;
+  }
+
+  /**
    * Register user
    */
   onSubmit(): void {
     //here I will add the logic to connect it with the backend
   }
 }
-
-/**
- * todo:
- * - placeholders for inputs
- * - error handling: I will show the user a general technical error page if they
- * send the data to the BE and the BE is down
- * - show inline error when the user already exists in the database. implement logic
- * in error handling and also here where I will use isUsernameTaken to store that information
- * - 100% percent unit tests
- * - better design
- */
