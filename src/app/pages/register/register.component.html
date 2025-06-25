@@ -1,1 +1,73 @@
-<p>signup works!</p>
+<div class="register-page">
+  <h1 class="register-page__title">Register</h1>
+  <div class="register-page__body">
+    <form [formGroup]="registerForm">
+      <div class="register-page__body__input-container">
+        <label for="username">Username:</label>
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          autocomplete="off"
+          maxlength="32"
+          placeholder="Enter username"
+        />
+        @if(registerForm.get('username')?.touched) {
+        <div class="register-page__body__input-container__error">
+          {{ getUsernameError() }}
+        </div>
+        }
+      </div>
+      <div class="register-page__body__input-container">
+        <label for="password">Password:</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          autocomplete="off"
+          placeholder="Enter password"
+          maxlength="32"
+        />
+        @if(registerForm.get('password')?.touched) {
+        <div class="register-page__body__input-container__error">
+          {{ getPasswordError() }}
+        </div>
+        }
+      </div>
+      <div class="register-page__body__input-container">
+        <label for="confirmPassword">Confirm password:</label>
+        <input
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          type="password"
+          autocomplete="off"
+          placeholder="Confirm password"
+          maxlength="32"
+        />
+        @if(registerForm.get('confirmPassword')?.touched &&
+        registerForm.errors?.['passwordsMismatch']) {
+        <div class="register-page__body__input-container__error">
+          Password don't match.
+        </div>
+        }
+      </div>
+    </form>
+  </div>
+  <div class="register-page__footer">
+    <button
+      class="register-page__footer__btn-register"
+      type="button"
+      (click)="onSubmit()"
+      [disabled]="registerForm.invalid"
+    >
+      Register
+    </button>
+    <button
+      class="register-page__footer__btn-login"
+      type="button"
+      (click)="onSubmit()"
+    >
+      Have account? Sign in
+    </button>
+  </div>
+</div>
