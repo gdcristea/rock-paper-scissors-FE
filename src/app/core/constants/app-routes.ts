@@ -5,7 +5,7 @@ export const AppRoutes = {
   game: 'game',
   login: 'login',
   register: 'register',
-  error: 'error',
+  technicalError: 'technical-error',
   profile: 'profile',
   leaderboard: 'leaderboard',
   notFound: 'not-found'

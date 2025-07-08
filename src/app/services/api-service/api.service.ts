@@ -2,29 +2,35 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {TOption} from '../../models/option.type';
-import {IWinner} from './api.interfaces';
+import {IResponseSuccess, ISignUpPayload, IWinner} from './api.interfaces';
 import {environment} from '../../../environments/environment';
+import {ApiPath} from './paths';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  /**
+   * Base server url based on the environment: production/dev
+   */
   baseServerUrl = environment.baseServerUrl;
-  winnerEndpoint = 'api/winner';
-  signupEndpoint = 'api/auth/signup';
-  http = inject(HttpClient);
+
+  /**
+   * Used to performed http requests
+   */
+  private readonly http = inject(HttpClient);
 
   determineWinner(userOption: TOption): Observable<IWinner> {
     return this.http.post<IWinner>(
-      `${this.baseServerUrl}${this.winnerEndpoint}`,
+      `${this.baseServerUrl}${ApiPath.winnerEndpoint}`,
       {userOption: userOption}
     )
   }
 
-  signup(username: string, password: string): Observable<{message: string}> {
-    return this.http.post<{message: string}>(
-      `${this.baseServerUrl}${this.signupEndpoint}`,
-      {username, password}
+  signup(signUpData: ISignUpPayload): Observable<IResponseSuccess> {
+    return this.http.post<IResponseSuccess>(
+      `${this.baseServerUrl}${ApiPath.signupEndpoint}`,
+      signUpData
     )
   }
 }

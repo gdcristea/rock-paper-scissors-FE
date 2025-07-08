@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,11 +8,21 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { ApiService } from '../../services/api-service/api.service';
+import { Router } from '@angular/router';
+import { AppRoutes } from '../../core/constants/app-routes';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatSnackBar, MatSnackBarRef, TextOnlySnackBar} from '@angular/material/snack-bar';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {IResponseError, ISignUpPayload} from '../../services/api-service/api.interfaces';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatProgressSpinnerModule
+  ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -45,6 +55,15 @@ export class RegisterComponent implements OnInit {
       },
       { validators: this.passwordMatchValidator() }
     );
+
+    /**
+     * Sets isUsernameTaken to false
+     * If the isUsernameTaken is taken based on the answer from the BE, then isUsernameTaken = true
+     * Afterward, when the user changes the value of the username then isUsernameTaken = false
+     */
+    this.registerForm.get('username').valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.isUsernameTaken = false);
   }
 
   /**
@@ -95,7 +114,64 @@ export class RegisterComponent implements OnInit {
   /**
    * Register user
    */
-  onSubmit(): void {
-    //here I will add the logic to connect it with the backend
+  onRegister(): void {
+    if (this.registerForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
+
+    //Create sign up data to be sent to the backend
+    const signUpData: ISignUpPayload = {
+      username: this.registerForm.get('username').value,
+      password: this.registerForm.get('password').value
+    }
+    this.apiService.signup(signUpData)
+    .subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.openSnackBar();
+      },
+      error: (error: IResponseError) => {
+        this.isLoading = false;
+
+        if(error.error.errorCode === 'USERNAME_TAKEN') {
+          this.isUsernameTaken = true;
+          return;
+        }
+
+        /**
+         * If there is a server error, then navigate to the general error page.
+         */
+        this.router.navigate([AppRoutes.technicalError]);
+      },
+    });
+  }
+
+  /**
+   * Navigate to login page if the user already has an account
+   */
+  onLogin(): void {
+    this.router.navigate([AppRoutes.login]);
+  }
+
+  /**
+   * Opens success snack bar
+   * When the snackbar disappears then navigate to login page
+   */
+  openSnackBar(): void {
+    const snackBarRef: MatSnackBarRef<TextOnlySnackBar> = this.snackBarService.open(
+      "🎉 Welcome! Your account is ready. Let's log you in.",
+      '',
+      {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+        panelClass: 'snackBar--green'
+      }
+    );
+
+    snackBarRef.afterDismissed().subscribe(() => {
+      this.router.navigate([AppRoutes.login]);
+    })
   }
 }

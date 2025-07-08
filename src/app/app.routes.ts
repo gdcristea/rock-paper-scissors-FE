@@ -25,7 +25,7 @@ export const routes: Routes = [
       import('./pages/game/game.component').then((c) => c.GameComponent),
   },
   {
-    path: AppRoutes.error,
+    path: AppRoutes.technicalError,
     loadComponent: () =>
       import('./pages/error/error.component').then((c) => c.ErrorComponent),
   },
