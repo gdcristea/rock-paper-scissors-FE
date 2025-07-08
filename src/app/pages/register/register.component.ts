@@ -37,7 +37,35 @@ export class RegisterComponent implements OnInit {
    */
   isUsernameTaken = false;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  /**
+   * Shows a loader when the app waits for an answer from the BE
+   */
+  isLoading = false;
+
+  /**
+   * Used for unsubscribe
+   */
+  private readonly destroyRef = inject(DestroyRef);
+
+  /**
+   * Used to build the register form
+   */
+  private readonly formBuilder = inject(FormBuilder);
+
+  /**
+   * Api service used to communicate with the backend
+   */
+  private readonly apiService = inject(ApiService);
+
+  /**
+   * Router service used for navigation between views
+   */
+  private readonly router = inject(Router);
+
+  /**
+   * Snackbar service used for displaying the success sign-up notification
+   */
+  private readonly snackBarService = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
