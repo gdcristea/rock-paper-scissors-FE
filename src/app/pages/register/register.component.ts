@@ -91,7 +91,11 @@ export class RegisterComponent implements OnInit {
      */
     this.registerForm.get('username').valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.isUsernameTaken = false);
+      .subscribe((): void => {
+        if (this.isUsernameTaken) {
+          this.isUsernameTaken = false
+        }
+      });
   }
 
   /**
@@ -117,7 +121,7 @@ export class RegisterComponent implements OnInit {
       return 'Username can only contain letters, numbers, and underscores (_), without spaces or special characters.';
     } else if (usernameControl.hasError('minlength')) {
       return 'Username length should be at least 4';
-    } else if (this.isUsernameTaken) {
+    } else if (this.isUsernameTaken) { //nu stiu daca va merge eroarea de aici chiar asa. trebuie sa vad din BE.
       return 'Username already exists';
     }
 
