@@ -1,27 +1,26 @@
-<div
-  *ngIf="isModalVisible()"
-  (click)="closeRulesModal()"
-  class="rules-modal-overlay"
-  >
-  <div class="rules-modal-container" (click)="$event.stopPropagation()">
-    <div class="rules-modal-container__title">
-      <p class="rules-modal-container__title__content">RULES</p>
+@if (isModalVisible()) {
+  <div
+    (click)="closeRulesModal()"
+    class="rules-modal-overlay"
+    >
+    <div class="rules-modal-container" (click)="$event.stopPropagation()">
+      <div class="rules-modal-container__title">
+        <p class="rules-modal-container__title__content">RULES</p>
+        <div
+          (click)="closeRulesModal()"
+          class="rules-modal-container__close-btn-web">
+          <img src="assets/images/icon-close.svg" alt="Close button mobile">
+        </div>
+      </div>
+      <div class="rules-modal-container__rules">
+        <img src="assets/images/image-rules.svg" alt="Game rules">
+      </div>
       <div
         (click)="closeRulesModal()"
-        class="rules-modal-container__close-btn-web">
-        <img src="assets/images/icon-close.svg" alt="Close button mobile">
+        class="rules-modal-container__close-btn-mobile">
+        <img src="assets/images/icon-close.svg" alt="Close button web">
       </div>
     </div>
-
-    <div class="rules-modal-container__rules">
-      <img src="assets/images/image-rules.svg" alt="Game rules">
-    </div>
-
-    <div
-      (click)="closeRulesModal()"
-      class="rules-modal-container__close-btn-mobile">
-      <img src="assets/images/icon-close.svg" alt="Close button web">
-    </div>
   </div>
-</div>
+}
 
