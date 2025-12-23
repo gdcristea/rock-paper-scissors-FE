@@ -1,4 +1,19 @@
-@import 'normalize.css';
-@import 'theme/colors';
-@import 'assets/fonts/font';
-@import 'theme/theme';
+@use "@angular/material" as mat;
+@include mat.core();
+@import "normalize.css";
+@import "theme/colors";
+@import "assets/fonts/font";
+@import "theme/theme";
+
+$theme: mat.define-theme();
+
+:root {
+  @include mat.all-component-themes($theme);
+}
+
+//Apply green color for snackbar sign up successfully
+mat-snack-bar-container.snackBar--green {
+  .mdc-snackbar__surface {
+    color: green;
+  }
+}

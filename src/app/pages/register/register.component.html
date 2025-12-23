@@ -1,3 +1,8 @@
+@if(isLoading) {
+<div class="mat-spinner__container">
+  <mat-spinner></mat-spinner>
+</div>
+} @else {
 <div class="register-page">
   <h1 class="register-page__title">Register</h1>
   <div class="register-page__body">
@@ -57,7 +62,7 @@
     <button
       class="register-page__footer__btn-register"
       type="button"
-      (click)="onSubmit()"
+      (click)="onRegister()"
       [disabled]="registerForm.invalid"
     >
       Register
@@ -65,9 +70,10 @@
     <button
       class="register-page__footer__btn-login"
       type="button"
-      (click)="onSubmit()"
+      (click)="onLogin()"
     >
       Have account? Sign in
     </button>
   </div>
 </div>
+}
